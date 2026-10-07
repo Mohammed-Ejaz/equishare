@@ -1,0 +1,250 @@
+@import "tailwindcss";
+
+@layer base {
+  :root, [data-theme="dark"] {
+    --color-app-bg: #070A12;
+    --bg-main: #070A12;
+    --bg-sidebar: #0B101D;
+    --bg-header: rgba(9, 13, 22, 0.85);
+    --bg-card: rgba(14, 20, 36, 0.72);
+    --bg-card-hover: rgba(22, 31, 56, 0.85);
+    --border-card: rgba(255, 255, 255, 0.08);
+    --accent-primary: #10B981;
+    --accent-secondary: #06B6D4;
+    --accent-glow: rgba(16, 185, 129, 0.22);
+    --orb-1: #10B981;
+    --orb-2: #06B6D4;
+    --text-heading: #FFFFFF;
+    --text-body: #E2E8F0;
+    --text-muted: #94A3B8;
+  }
+
+  [data-theme="dim"] {
+    --color-app-bg: #0F172A;
+    --bg-main: #0F172A;
+    --bg-sidebar: #1E293B;
+    --bg-header: rgba(15, 23, 42, 0.88);
+    --bg-card: rgba(30, 41, 59, 0.75);
+    --bg-card-hover: rgba(51, 65, 85, 0.85);
+    --border-card: rgba(255, 255, 255, 0.12);
+    --accent-primary: #38BDF8;
+    --accent-secondary: #818CF8;
+    --accent-glow: rgba(56, 189, 248, 0.25);
+    --orb-1: #38BDF8;
+    --orb-2: #818CF8;
+    --text-heading: #F8FAFC;
+    --text-body: #E2E8F0;
+    --text-muted: #94A3B8;
+  }
+
+  [data-theme="light"] {
+    --color-app-bg: #F8FAFC;
+    --bg-main: #F8FAFC;
+    --bg-sidebar: #FFFFFF;
+    --bg-header: rgba(255, 255, 255, 0.88);
+    --bg-card: #FFFFFF;
+    --bg-card-hover: #F1F5F9;
+    --border-card: #E2E8F0;
+    --accent-primary: #059669;
+    --accent-secondary: #0284C7;
+    --accent-glow: rgba(5, 150, 105, 0.15);
+    --orb-1: #10B981;
+    --orb-2: #38BDF8;
+    --text-heading: #0F172A;
+    --text-body: #334155;
+    --text-muted: #64748B;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-body);
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    min-height: 100vh;
+    transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.font-outfit, .font-sora {
+  font-family: 'Sora', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.font-sans {
+  font-family: 'DM Sans', sans-serif;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.45);
+}
+
+/* Keyframe Animations for Fluid Ambient Background */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(28px, -22px, 0) scale(1.06);
+  }
+}
+
+@keyframes floatReverse {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-30px, 25px, 0) scale(0.95);
+  }
+}
+
+@keyframes pulseSlow {
+  0%, 100% {
+    opacity: 0.15;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.25;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-float-slow {
+  animation: floatSlow 18s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+  animation: floatReverse 22s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulseSlow 14s ease-in-out infinite;
+}
+
+.animate-spin-ultra-slow {
+  animation: spinSlow 60s linear infinite;
+}
+
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-card);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ------------------------------------------------------------- */
+/* THEME OVERRIDES: DIM MODE (Navy / Charcoal Ambient)           */
+/* ------------------------------------------------------------- */
+[data-theme="dim"] .bg-\[\#0B101D\],
+[data-theme="dim"] .bg-\[\#090D16\],
+[data-theme="dim"] .bg-\[\#111726\],
+[data-theme="dim"] .bg-\[\#070A12\] {
+  background-color: #1E293B !important;
+}
+
+[data-theme="dim"] .glass-panel {
+  background: rgba(30, 41, 59, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ------------------------------------------------------------- */
+/* THEME OVERRIDES: LIGHT MODE (Pristine Crisp Modern Light)     */
+/* ------------------------------------------------------------- */
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+[data-theme="light"] .text-white,
+[data-theme="light"] .text-slate-100 {
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .text-slate-200 {
+  color: #1E293B !important;
+}
+
+[data-theme="light"] .text-slate-300 {
+  color: #334155 !important;
+}
+
+[data-theme="light"] .text-slate-400 {
+  color: #64748B !important;
+}
+
+[data-theme="light"] .bg-\[\#0B101D\],
+[data-theme="light"] .bg-\[\#090D16\],
+[data-theme="light"] .bg-\[\#111726\],
+[data-theme="light"] .bg-\[\#070A12\] {
+  background-color: #FFFFFF !important;
+}
+
+[data-theme="light"] .bg-white\/5,
+[data-theme="light"] .bg-white\/10 {
+  background-color: #F1F5F9 !important;
+}
+
+[data-theme="light"] .hover\:bg-white\/10:hover,
+[data-theme="light"] .hover\:bg-white\/5:hover {
+  background-color: #E2E8F0 !important;
+}
+
+[data-theme="light"] .border-white\/10,
+[data-theme="light"] .border-white\/5,
+[data-theme="light"] .border-white\/20 {
+  border-color: #E2E8F0 !important;
+}
+
+[data-theme="light"] .bg-black\/20,
+[data-theme="light"] .bg-black\/25,
+[data-theme="light"] .bg-black\/40,
+[data-theme="light"] .bg-black\/50 {
+  background-color: #F8FAFC !important;
+}
+
+[data-theme="light"] select,
+[data-theme="light"] input,
+[data-theme="light"] textarea {
+  color: #0F172A !important;
+  background-color: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] select option {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .glass-panel {
+  background: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}

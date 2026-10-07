@@ -1,0 +1,178 @@
+{
+  "users": [
+    {
+      "id": "m1",
+      "name": "Alex Rivera",
+      "email": "alex@roomie.io",
+      "passwordHash": "$2a$10$wT8m9Z1gJ1q/1z6Vq4G8eO4R.3f8K9vP5.xK9b1sT8qV1.d1K9vP5",
+      "upiId": "alexrivera@okhdfcbank",
+      "phone": "+91 98765 43210",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      "createdAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "m2",
+      "name": "Maya Chen",
+      "email": "maya@roomie.io",
+      "passwordHash": "$2a$10$wT8m9Z1gJ1q/1z6Vq4G8eO4R.3f8K9vP5.xK9b1sT8qV1.d1K9vP5",
+      "upiId": "mayachen@okaxis",
+      "phone": "+91 98765 43211",
+      "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
+      "createdAt": "2026-01-01T00:00:00.000Z"
+    }
+  ],
+  "groups": [
+    {
+      "id": "group-apt402",
+      "name": "Apt 402 — The Penthouse 🏠",
+      "description": "Shared 4-bedroom flat (Rent, Utilities, Groceries & House Help)",
+      "currency": "₹",
+      "createdBy": "m1",
+      "members": [
+        {
+          "id": "m1",
+          "name": "Alex Rivera",
+          "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80",
+          "email": "alex@roomie.io",
+          "color": "#10B981"
+        },
+        {
+          "id": "m2",
+          "name": "Maya Chen",
+          "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=120&auto=format&fit=crop&q=80",
+          "email": "maya@roomie.io",
+          "color": "#6366F1"
+        }
+      ],
+      "expenses": [
+        {
+          "id": "exp-1",
+          "title": "Monthly Flat Rent (April)",
+          "amount": 36000,
+          "category": "rent",
+          "paidBy": "m1",
+          "date": "2026-04-01",
+          "splitType": "equal",
+          "participants": [
+            "m1",
+            "m2"
+          ],
+          "splits": {
+            "m1": 18000,
+            "m2": 18000
+          },
+          "notes": "Direct Bank NEFT transfer"
+        }
+      ],
+      "supplies": [
+        {
+          "id": "sup-1",
+          "name": "Dishwasher Pods & Detergent",
+          "category": "cleaning",
+          "estimatedPrice": 420,
+          "addedBy": "m1",
+          "status": "needed"
+        }
+      ]
+    },
+    {
+      "id": "group-1791283242237",
+      "name": "Chill Out",
+      "description": "chill",
+      "currency": "₹",
+      "members": [
+        {
+          "id": "user-1791272643901",
+          "name": "Ejaz",
+          "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
+          "email": "ejaz@gmail.com",
+          "isCurrentUser": true,
+          "color": "#10B981"
+        }
+      ],
+      "expenses": [],
+      "supplies": [],
+      "settlements": []
+    },
+    {
+      "id": "group-1791282982676",
+      "name": "Ejaz's Flat / Group 🏠",
+      "description": "Personal expense ledger & roommate splits",
+      "currency": "₹",
+      "members": [
+        {
+          "id": "user-1791272643901",
+          "name": "Ejaz",
+          "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
+          "email": "ejaz@gmail.com",
+          "color": "#10B981",
+          "isCurrentUser": true
+        },
+        {
+          "id": "m-1791292483806-w1iz",
+          "name": "Aslam",
+          "email": "",
+          "upiId": "",
+          "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80",
+          "color": "#6366F1",
+          "isCurrentUser": false
+        }
+      ],
+      "expenses": [
+        {
+          "id": "exp-1791291814657",
+          "title": "Majeed store",
+          "amount": 5000,
+          "category": "groceries",
+          "paidBy": "user-1791272643901",
+          "date": "2026-10-06",
+          "splitType": "equal",
+          "participants": [
+            "user-1791272643901"
+          ],
+          "splits": {
+            "user-1791272643901": 5000
+          },
+          "notes": ""
+        }
+      ],
+      "supplies": []
+    },
+    {
+      "id": "group-1791273118428",
+      "name": "Sara's Space 🏠",
+      "description": "Personal expense ledger & roommate splits",
+      "currency": "₹",
+      "members": [
+        {
+          "id": "user-1791273118427",
+          "name": "Sara Connor",
+          "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+          "email": "sara@test.com",
+          "color": "#10B981",
+          "isCurrentUser": true
+        }
+      ],
+      "expenses": [],
+      "supplies": []
+    },
+    {
+      "id": "group-1791293216517",
+      "name": "Musthafa's Space 🏠",
+      "description": "Personal expense ledger & roommate splits",
+      "currency": "₹",
+      "members": [
+        {
+          "id": "user-1791293216516",
+          "name": "Musthafa",
+          "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+          "email": "musthu@gmail.com",
+          "color": "#10B981",
+          "isCurrentUser": true
+        }
+      ],
+      "expenses": [],
+      "supplies": []
+    }
+  ]
+}
