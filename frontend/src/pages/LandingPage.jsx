@@ -7,7 +7,6 @@ import {
   Zap, 
   Smartphone, 
   Receipt, 
-  QrCode, 
   Calculator, 
   ShoppingCart, 
   ChevronDown, 
@@ -30,7 +29,6 @@ export function LandingPage({
 }) {
   const heroRef = useRef(null);
   const cardTiltRef = useRef(null);
-  const badge1Ref = useRef(null);
   const badge2Ref = useRef(null);
 
   // Interactive Live Split Simulator state
@@ -59,9 +57,6 @@ export function LandingPage({
 
         if (cardTiltRef.current) {
           cardTiltRef.current.style.transform = `rotateY(${x * 10}deg) rotateX(${-y * 10}deg)`;
-        }
-        if (badge1Ref.current) {
-          badge1Ref.current.style.transform = `translate(${x * -14}px, ${y * -14}px)`;
         }
         if (badge2Ref.current) {
           badge2Ref.current.style.transform = `translate(${x * 16}px, ${y * 16}px)`;
@@ -396,22 +391,7 @@ export function LandingPage({
                 </div>
               </div>
 
-              {/* Floating Parallax Badge 1: Instant UPI */}
-              <div 
-                ref={badge1Ref}
-                className="absolute -top-6 -left-6 p-3 rounded-2xl bg-[#131B30]/95 border border-emerald-500/40 shadow-2xl backdrop-blur-xl flex items-center gap-3 animate-bounce"
-                style={{ animationDuration: '4s' }}
-              >
-                <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
-                  <QrCode className="w-5 h-5" />
-                </div>
-                <div>
-                  <span className="text-[10px] text-slate-400 font-medium block">UPI Instant Pay</span>
-                  <span className="text-xs font-bold text-white font-mono">GPay · PhonePe · Paytm</span>
-                </div>
-              </div>
-
-              {/* Floating Parallax Badge 2: AI OCR Scan */}
+              {/* Floating Parallax Badge: AI OCR Scan */}
               <div 
                 ref={badge2Ref}
                 className="absolute -bottom-6 -right-6 p-3 rounded-2xl bg-[#131B30]/95 border border-cyan-500/40 shadow-2xl backdrop-blur-xl flex items-center gap-3"
