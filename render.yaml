@@ -16,11 +16,9 @@ services:
       - key: CLIENT_ORIGIN
         value: "*"
 
-  # 2. EquiShare Frontend Static Site (Optional: if hosting frontend on Render as well)
-  - type: web
+  # 2. EquiShare Frontend Static Site
+  - type: static
     name: equishare-frontend
-    runtime: static
-    plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
@@ -34,4 +32,3 @@ services:
           type: web
           name: equishare-backend
           property: host
-          value: https://equishare-backend.onrender.com/api
