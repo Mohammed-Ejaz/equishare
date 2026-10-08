@@ -6,6 +6,7 @@
     "dev": "vite",
     "dev:frontend": "npm run dev --prefix frontend",
     "dev:backend": "npm run dev --prefix backend",
+    "start:backend": "npm start --prefix backend",
     "build": "vite build",
     "build:frontend": "npm run build --prefix frontend",
     "lint": "oxlint",

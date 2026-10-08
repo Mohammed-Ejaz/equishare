@@ -842,9 +842,8 @@ export default function App() {
       <AnimatedBackground theme={theme} />
 
       {/* 1. Desktop & Mobile Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-40 md:static md:h-[100dvh] shrink-0 transition-transform duration-300 ${
-        isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
-      }`}>
+      <div className={`fixed inset-y-0 left-0 z-40 md:static md:h-[100dvh] shrink-0 transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+        }`}>
         <Sidebar
           activePage={activePage}
           onNavigate={(page) => {
@@ -882,7 +881,7 @@ export default function App() {
 
       {/* Backdrop for mobile drawer */}
       {isMobileMenuOpen && (
-        <div 
+        <div
           onClick={() => setIsMobileMenuOpen(false)}
           className="fixed inset-0 z-30 bg-black/70 backdrop-blur-sm md:hidden"
         />
@@ -905,9 +904,9 @@ export default function App() {
         />
 
         {/* Page Content Viewport - Padding-top managed responsively by app-main-scrollable */}
-        <main 
-          style={{ 
-            paddingBottom: 'max(7rem, calc(5rem + env(safe-area-inset-bottom, 0px)))' 
+        <main
+          style={{
+            paddingBottom: 'max(7rem, calc(5rem + env(safe-area-inset-bottom, 0px)))'
           }}
           className="app-main-scrollable flex-1 w-full p-4 md:p-6 md:pb-12 lg:p-8 max-w-7xl mx-auto md:overflow-y-auto md:min-h-0 custom-scrollbar"
         >

@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { 
-  X, 
-  User, 
-  Mail, 
-  Lock, 
-  Check, 
-  ArrowRight, 
-  LogOut, 
+import {
+  X,
+  User,
+  Mail,
+  Lock,
+  Check,
+  ArrowRight,
+  LogOut,
   Smartphone,
-  UserPlus, 
-  LogIn, 
+  UserPlus,
+  LogIn,
   CheckCircle2,
   AlertCircle,
   Eye,
@@ -232,9 +232,8 @@ export function AuthModal({
             <button
               type="button"
               onClick={() => { setMode('signin'); setError(''); setSuccessMsg(''); }}
-              className={`flex-1 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
-                mode === 'signin' ? 'bg-emerald-500 text-slate-950 shadow-md font-extrabold' : 'text-slate-400 hover:text-white'
-              }`}
+              className={`flex-1 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${mode === 'signin' ? 'bg-emerald-500 text-slate-950 shadow-md font-extrabold' : 'text-slate-400 hover:text-white'
+                }`}
             >
               <LogIn className="w-3.5 h-3.5" />
               <span>Sign In</span>
@@ -242,9 +241,8 @@ export function AuthModal({
             <button
               type="button"
               onClick={() => { setMode('signup'); setError(''); setSuccessMsg(''); }}
-              className={`flex-1 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
-                mode === 'signup' ? 'bg-emerald-500 text-slate-950 shadow-md font-extrabold' : 'text-slate-400 hover:text-white'
-              }`}
+              className={`flex-1 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${mode === 'signup' ? 'bg-emerald-500 text-slate-950 shadow-md font-extrabold' : 'text-slate-400 hover:text-white'
+                }`}
             >
               <UserPlus className="w-3.5 h-3.5" />
               <span>Sign Up</span>
@@ -271,9 +269,8 @@ export function AuthModal({
             <div>
               <label className="block text-slate-300 font-semibold mb-1">Email Address</label>
               <div className="relative">
-                <Mail className={`w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 transition-colors ${
-                  showSignInEmailWarning ? 'text-rose-400' : isSignInEmailValid ? 'text-emerald-400' : 'text-slate-400'
-                }`} />
+                <Mail className={`w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 transition-colors ${showSignInEmailWarning ? 'text-rose-400' : isSignInEmailValid ? 'text-emerald-400' : 'text-slate-400'
+                  }`} />
                 <input
                   type="email"
                   name="user_email_signin"
@@ -285,13 +282,12 @@ export function AuthModal({
                     if (error) setError('');
                   }}
                   required
-                  className={`w-full pl-9 pr-9 py-2.5 rounded-xl border transition-all text-white placeholder-slate-500 font-sans focus:outline-none ${
-                    showSignInEmailWarning
+                  className={`w-full pl-9 pr-9 py-2.5 rounded-xl border transition-all text-white placeholder-slate-500 font-sans focus:outline-none ${showSignInEmailWarning
                       ? 'bg-rose-500/10 border-rose-500/80 focus:border-rose-500 focus:ring-1 focus:ring-rose-500/40 text-rose-100'
                       : isSignInEmailValid
-                      ? 'bg-white/5 border-emerald-500/50 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30'
-                      : 'bg-white/5 border-white/10 focus:border-emerald-500'
-                  }`}
+                        ? 'bg-white/5 border-emerald-500/50 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30'
+                        : 'bg-white/5 border-white/10 focus:border-emerald-500'
+                    }`}
                 />
                 {isSignInEmailValid && (
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 absolute right-3 top-1/2 -translate-y-1/2 animate-fadeIn" />
@@ -386,9 +382,8 @@ export function AuthModal({
             <div>
               <label className="block text-slate-300 font-semibold mb-1">Email Address</label>
               <div className="relative">
-                <Mail className={`w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 transition-colors ${
-                  showSignUpEmailWarning ? 'text-rose-400' : isSignUpEmailValid ? 'text-emerald-400' : 'text-slate-400'
-                }`} />
+                <Mail className={`w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 transition-colors ${showSignUpEmailWarning ? 'text-rose-400' : isSignUpEmailValid ? 'text-emerald-400' : 'text-slate-400'
+                  }`} />
                 <input
                   type="email"
                   name="user_email_signup"
@@ -400,13 +395,12 @@ export function AuthModal({
                     if (error) setError('');
                   }}
                   required
-                  className={`w-full pl-9 pr-9 py-2.5 rounded-xl border transition-all text-white placeholder-slate-500 font-sans focus:outline-none ${
-                    showSignUpEmailWarning
+                  className={`w-full pl-9 pr-9 py-2.5 rounded-xl border transition-all text-white placeholder-slate-500 font-sans focus:outline-none ${showSignUpEmailWarning
                       ? 'bg-rose-500/10 border-rose-500/80 focus:border-rose-500 focus:ring-1 focus:ring-rose-500/40 text-rose-100'
                       : isSignUpEmailValid
-                      ? 'bg-white/5 border-emerald-500/50 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30'
-                      : 'bg-white/5 border-white/10 focus:border-emerald-500'
-                  }`}
+                        ? 'bg-white/5 border-emerald-500/50 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30'
+                        : 'bg-white/5 border-white/10 focus:border-emerald-500'
+                    }`}
                 />
                 {isSignUpEmailValid && (
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 absolute right-3 top-1/2 -translate-y-1/2 animate-fadeIn" />
@@ -479,11 +473,10 @@ export function AuthModal({
                     key={idx}
                     type="button"
                     onClick={() => { setSelectedAvatar(av); setCustomAvatarUrl(''); }}
-                    className={`relative rounded-full shrink-0 transition-all ${
-                      selectedAvatar === av && !customAvatarUrl
+                    className={`relative rounded-full shrink-0 transition-all ${selectedAvatar === av && !customAvatarUrl
                         ? 'ring-2 ring-emerald-400 scale-105 shadow-md'
                         : 'opacity-70 hover:opacity-100'
-                    }`}
+                      }`}
                   >
                     <img src={av} alt="Avatar option" className="w-10 h-10 rounded-full object-cover" />
                     {selectedAvatar === av && !customAvatarUrl && (
@@ -542,11 +535,10 @@ export function AuthModal({
                   <div
                     key={u.id}
                     onClick={() => handleQuickSwitch(u)}
-                    className={`p-3.5 rounded-xl border cursor-pointer transition-all flex items-center justify-between gap-3 ${
-                      isCurrent
+                    className={`p-3.5 rounded-xl border cursor-pointer transition-all flex items-center justify-between gap-3 ${isCurrent
                         ? 'bg-emerald-500/15 border-emerald-500 shadow-md ring-1 ring-emerald-500'
                         : 'bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/10'
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center gap-3">
                       <img src={u.avatar} alt={u.name} className="w-10 h-10 rounded-full object-cover border border-white/20" />
@@ -616,9 +608,8 @@ export function AuthModal({
             <div>
               <label className="block text-slate-300 font-semibold mb-1">Email Address</label>
               <div className="relative">
-                <Mail className={`w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 transition-colors ${
-                  showProfileEmailWarning ? 'text-rose-400' : isProfileEmailValid ? 'text-emerald-400' : 'text-slate-400'
-                }`} />
+                <Mail className={`w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 transition-colors ${showProfileEmailWarning ? 'text-rose-400' : isProfileEmailValid ? 'text-emerald-400' : 'text-slate-400'
+                  }`} />
                 <input
                   type="email"
                   value={profileEmail}
@@ -627,13 +618,12 @@ export function AuthModal({
                     if (error) setError('');
                   }}
                   required
-                  className={`w-full pl-9 pr-9 py-2.5 rounded-xl border transition-all text-white font-semibold focus:outline-none ${
-                    showProfileEmailWarning
+                  className={`w-full pl-9 pr-9 py-2.5 rounded-xl border transition-all text-white font-semibold focus:outline-none ${showProfileEmailWarning
                       ? 'bg-rose-500/10 border-rose-500/80 focus:border-rose-500 focus:ring-1 focus:ring-rose-500/40 text-rose-100'
                       : isProfileEmailValid
-                      ? 'bg-white/5 border-emerald-500/50 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30'
-                      : 'bg-white/5 border-white/10 focus:border-emerald-500'
-                  }`}
+                        ? 'bg-white/5 border-emerald-500/50 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30'
+                        : 'bg-white/5 border-white/10 focus:border-emerald-500'
+                    }`}
                 />
                 {isProfileEmailValid && (
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 absolute right-3 top-1/2 -translate-y-1/2 animate-fadeIn" />
@@ -667,11 +657,10 @@ export function AuthModal({
                     key={idx}
                     type="button"
                     onClick={() => { setProfileAvatar(av); setProfileCustomAvatarUrl(''); }}
-                    className={`relative rounded-full shrink-0 transition-all ${
-                      profileAvatar === av && !profileCustomAvatarUrl
+                    className={`relative rounded-full shrink-0 transition-all ${profileAvatar === av && !profileCustomAvatarUrl
                         ? 'ring-2 ring-emerald-400 scale-105'
                         : 'opacity-70 hover:opacity-100'
-                    }`}
+                      }`}
                   >
                     <img src={av} alt="Avatar" className="w-10 h-10 rounded-full object-cover" />
                   </button>
