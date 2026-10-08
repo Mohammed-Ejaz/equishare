@@ -797,7 +797,7 @@ export default function App() {
   // If user is not logged in or activePage is 'landing', show the full immersive landing page
   if (!isLoggedIn || activePage === 'landing') {
     return (
-      <div className="min-h-screen bg-[#070A12] text-slate-100 relative font-sans">
+      <div className="h-full min-h-screen overflow-y-auto bg-[#070A12] text-slate-100 relative font-sans custom-scrollbar">
         <InteractiveCursor />
         <LandingPage
           onEnterApp={() => setActivePage('dashboard')}
@@ -834,7 +834,7 @@ export default function App() {
   }
 
   return (
-    <div className="h-screen bg-[var(--color-app-bg)] text-slate-100 flex relative overflow-hidden font-sans transition-colors duration-300" data-theme={theme}>
+    <div className="h-full h-[100dvh] bg-[var(--color-app-bg)] text-slate-100 flex relative overflow-hidden font-sans transition-colors duration-300" data-theme={theme}>
       {/* Interactive Magnetic Cursor Follower */}
       <InteractiveCursor />
 
@@ -842,7 +842,7 @@ export default function App() {
       <AnimatedBackground theme={theme} />
 
       {/* 1. Desktop & Mobile Sidebar (Fixed Height) */}
-      <div className={`fixed inset-y-0 left-0 z-40 md:static h-screen shrink-0 transition-transform duration-300 ${
+      <div className={`fixed inset-y-0 left-0 z-40 md:static h-full h-[100dvh] shrink-0 transition-transform duration-300 ${
         isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
       }`}>
         <Sidebar
@@ -888,8 +888,8 @@ export default function App() {
         />
       )}
 
-      {/* 2. Main Content Area (Fixed Height with Independent Scrollable Main) */}
-      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden z-10">
+      {/* 2. Main Content Area (Dynamic Height with Independent Scrollable Main) */}
+      <div className="flex-1 flex flex-col min-w-0 min-h-0 h-full overflow-hidden z-10">
         {/* Top Header - Always Fixed at Top */}
         <Header
           activePage={activePage}
@@ -905,7 +905,7 @@ export default function App() {
         />
 
         {/* Page Content Viewport - Only this scrolls */}
-        <main className="flex-1 overflow-y-auto p-4 lg:p-8 max-w-7xl w-full mx-auto custom-scrollbar">
+        <main className="flex-1 overflow-y-auto min-h-0 p-4 pb-28 md:p-6 md:pb-12 lg:p-8 max-w-7xl w-full mx-auto custom-scrollbar overscroll-contain">
           {activePage === 'dashboard' && (
             <DashboardPage
               group={activeGroup}

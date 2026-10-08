@@ -55,18 +55,26 @@
     --text-muted: #64748B;
   }
 
-  body {
+  html, body {
+    height: 100%;
+    height: 100dvh;
+    margin: 0;
+    padding: 0;
     background-color: var(--bg-main);
     color: var(--text-body);
     font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    min-height: 100vh;
     transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
   }
 
   #root {
-    min-height: 100vh;
+    height: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
 }
 
