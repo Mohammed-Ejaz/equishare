@@ -3,7 +3,11 @@
  * Connects frontend to http://localhost:5000/api with robust error handling
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = 
+  import.meta.env.VITE_API_URL || 
+  (import.meta.env.PROD 
+    ? 'https://equishare-backend.onrender.com/api' 
+    : 'http://localhost:5000/api');
 
 function getAuthHeader() {
   const token = localStorage.getItem('equishare_auth_token');
