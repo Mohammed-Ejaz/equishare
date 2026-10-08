@@ -35,8 +35,14 @@ export function Header({
       style={{ 
         paddingTop: 'max(0.75rem, env(safe-area-inset-top, 0.75rem))' 
       }}
-      className="app-fixed-header bg-[var(--bg-main,#090D16)]/95 backdrop-blur-xl border-b border-white/10 px-3 sm:px-5 lg:px-6 pb-3 flex items-center justify-between gap-2 sm:gap-4 shrink-0 transition-all"
+      className="app-fixed-header bg-[var(--bg-header)] backdrop-blur-2xl backdrop-saturate-150 border-b border-white/[0.08] shadow-[0_4px_24px_rgba(0,0,0,0.12)] px-3 sm:px-5 lg:px-6 pb-3 flex items-center justify-between gap-2 sm:gap-4 shrink-0 transition-all relative select-none"
     >
+      {/* 1. Ultra-Smooth Glowing Gradient Transparent Bottom Border Divider */}
+      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-emerald-400/40 via-cyan-400/30 to-transparent pointer-events-none" />
+      
+      {/* 2. Soft Ambient Bottom Transparent Fade Feather */}
+      <div className="absolute -bottom-3.5 left-0 right-0 h-3.5 bg-gradient-to-b from-black/20 via-black/5 to-transparent pointer-events-none" />
+
       {/* Left: Mobile Menu & Page Title */}
       <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
         {/* Mobile toggle */}
