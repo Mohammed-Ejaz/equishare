@@ -35,7 +35,7 @@ export function Header({
       style={{ 
         paddingTop: 'max(0.75rem, env(safe-area-inset-top, 0.75rem))' 
       }}
-      className="app-fixed-header bg-gradient-to-t from-transparent via-[var(--bg-header)]/70 to-[var(--bg-main,#070A12)]/95 backdrop-blur-xl px-3 sm:px-5 lg:px-6 pb-3 sm:pb-4 flex items-center justify-between gap-2 sm:gap-4 shrink-0 transition-all relative select-none"
+      className="app-fixed-header px-3 sm:px-5 lg:px-6 pb-3 sm:pb-4 flex items-center justify-between gap-2 sm:gap-4 shrink-0 transition-all relative select-none"
     >
       {/* Left: Mobile Menu & Page Title */}
       <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
