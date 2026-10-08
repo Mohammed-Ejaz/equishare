@@ -77,7 +77,7 @@ export function LandingPage({
   const faqs = [
     {
       q: "Is EquiShare linked to my real bank account?",
-      a: "No, EquiShare does NOT link to your bank accounts. It is a secure group expense calculator and ledger. When settling, it generates secure UPI deep links (PhonePe, Google Pay, Paytm, BHIM, CRED) where you approve payments safely inside your trusted UPI apps."
+      a: "No, EquiShare does NOT link to your bank accounts. It is a secure group expense calculator and ledger where you track shared expenses, simplify group debts, and record settlements directly."
     },
     {
       q: "How does the Debt Simplification algorithm work?",
@@ -199,7 +199,7 @@ export function LandingPage({
             {/* Pill Banner */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-bold backdrop-blur-md shadow-inner">
               <Sparkles className="w-3.5 h-3.5 text-emerald-400 animate-spin" style={{ animationDuration: '6s' }} />
-              <span>100% Free · Real-Time UPI Settlement · Zero Ads</span>
+              <span>100% Free · Smart Debt Simplification · Zero Ads</span>
             </div>
 
             {/* Main Headline */}
@@ -208,12 +208,12 @@ export function LandingPage({
               <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
                 awkward math.
               </span> <br />
-              Settle in 1-Click UPI.
+              Settle balances seamlessly.
             </h1>
 
             {/* Description */}
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-xl">
-              EquiShare simplifies roommate and group expenses, minimizes messy debt webs by up to <strong>75%</strong>, and generates instant UPI links for PhonePe, Google Pay, Paytm, and BHIM.
+              EquiShare simplifies roommate and group expenses, minimizes messy debt webs by up to <strong>75%</strong>, and organizes shared household supplies and settlements in one place.
             </p>
 
             {/* Quick Feature Checklist */}
@@ -228,7 +228,7 @@ export function LandingPage({
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Instant PhonePe & GPay Deep-links</span>
+                <span>Smart Settlement & Balance Tracking</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
@@ -275,23 +275,6 @@ export function LandingPage({
                 <Calculator className="w-4 h-4" />
                 <span>Try Live Split Demo</span>
               </a>
-            </div>
-
-            {/* Active User Social Proof Pill */}
-            <div className="pt-2 flex items-center gap-3 text-xs text-slate-400 border-t border-white/10">
-              <div className="flex -space-x-2">
-                {allUsers.slice(0, 4).map((u, i) => (
-                  <img
-                    key={u.id || i}
-                    src={u.avatar}
-                    alt={u.name}
-                    className="w-7 h-7 rounded-full object-cover border-2 border-[#070A12]"
-                  />
-                ))}
-              </div>
-              <span>
-                Joined by <strong className="text-white">roommates & flatmates</strong> across Bengaluru, Mumbai, Delhi, & Pune.
-              </span>
             </div>
           </div>
 
@@ -478,7 +461,7 @@ export function LandingPage({
               </li>
               <li className="flex items-start gap-2.5">
                 <span className="text-emerald-400 font-bold">✓</span>
-                <span><strong>1-Click Deep UPI</strong>: Tap "Settle" and immediately launch PhonePe or GPay with the exact amount and UPI ID prefilled.</span>
+                <span><strong>Clear Settlements</strong>: Record payments, track settlement notes, and clear balances without confusion.</span>
               </li>
               <li className="flex items-start gap-2.5">
                 <span className="text-emerald-400 font-bold">✓</span>
@@ -635,7 +618,7 @@ export function LandingPage({
             Everything You Need to Live in Harmony
           </h2>
           <p className="text-slate-400 text-sm sm:text-base">
-            Power packed with algorithms and modern Indian fintech rails.
+            Power packed with smart algorithms and intuitive expense tracking.
           </p>
         </div>
 
@@ -652,14 +635,14 @@ export function LandingPage({
             </p>
           </div>
 
-          {/* Card 2: UPI 1-Click Pay */}
+          {/* Card 2: Settlement Recording */}
           <div className="p-7 rounded-3xl bg-[#0E1528]/80 border border-white/10 hover:border-cyan-500/40 transition-all group space-y-4">
             <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center group-hover:scale-110 transition-transform">
               <Smartphone className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-white font-outfit">Instant UPI Deep Linking</h3>
+            <h3 className="text-xl font-bold text-white font-outfit">Smart Debt Settlements</h3>
             <p className="text-xs text-slate-400 leading-relaxed">
-              Pay debts in 1 click directly via PhonePe, Google Pay, Paytm, BHIM, or CRED with pre-filled VPA, amount, and reference notes.
+              Record and track settled balances with notes, payment methods (UPI, Bank, Cash), and historical settlement logs.
             </p>
           </div>
 
@@ -728,7 +711,7 @@ export function LandingPage({
             { step: '01', title: 'Create a Group', desc: 'Add flatmates or friends to Flat 402, Goa Trip, or Office Lunch.' },
             { step: '02', title: 'Add or Scan Bills', desc: 'Log expenses manually or let the OCR scanner auto-extract line items.' },
             { step: '03', title: 'See Net Balances', desc: 'Debts are simplified into clean, consolidated net amounts.' },
-            { step: '04', title: '1-Click Settle', desc: 'Tap Settle to open PhonePe or GPay and clear debts instantly.' },
+            { step: '04', title: 'Settle Balances', desc: 'Record settlements and keep everyone\'s balances squared away with zero confusion.' },
           ].map((item, idx) => (
             <div key={idx} className="p-6 rounded-2xl bg-[#0E1528] border border-white/10 relative space-y-3">
               <span className="text-3xl font-extrabold text-emerald-400/40 font-mono block">
