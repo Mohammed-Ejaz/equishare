@@ -53,7 +53,7 @@ export function Sidebar({
 
   return (
     <aside 
-      className={`bg-[var(--bg-sidebar,#0B101D)]/95 backdrop-blur-xl border-r border-white/10 flex flex-col justify-between shrink-0 h-screen sticky top-0 z-30 select-none transition-all duration-300 ${
+      className={`bg-[var(--bg-sidebar,#0B101D)]/95 backdrop-blur-xl border-r border-white/10 flex flex-col justify-between shrink-0 h-screen sticky top-0 z-40 select-none transition-all duration-300 ${
         isCollapsed ? 'w-20' : 'w-64'
       }`}
     >

@@ -904,10 +904,13 @@ export default function App() {
           onOpenAuth={handleOpenAuth}
         />
 
-        {/* Page Content Viewport - Seamless native document scroll on mobile, contained viewport on desktop */}
+        {/* Page Content Viewport - Padding-top equal to header height ensures content is never obscured */}
         <main 
-          style={{ paddingBottom: 'max(7rem, calc(5rem + env(safe-area-inset-bottom, 0px)))' }}
-          className="flex-1 w-full p-4 md:p-6 md:pb-12 lg:p-8 max-w-7xl mx-auto md:overflow-y-auto md:min-h-0 custom-scrollbar"
+          style={{ 
+            paddingTop: 'calc(var(--header-height, 4rem) + env(safe-area-inset-top, 0px) + 0.75rem)',
+            paddingBottom: 'max(7rem, calc(5rem + env(safe-area-inset-bottom, 0px)))' 
+          }}
+          className="app-main-scrollable flex-1 w-full p-4 md:p-6 md:pb-12 lg:p-8 max-w-7xl mx-auto md:overflow-y-auto md:min-h-0 custom-scrollbar"
         >
           {activePage === 'dashboard' && (
             <DashboardPage
