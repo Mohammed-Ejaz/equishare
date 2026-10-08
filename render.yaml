@@ -17,8 +17,9 @@ services:
         value: "*"
 
   # 2. EquiShare Frontend Static Site
-  - type: static
+  - type: web
     name: equishare-frontend
+    runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
@@ -26,9 +27,3 @@ services:
       - type: rewrite
         source: /*
         destination: /index.html
-    envVars:
-      - key: VITE_API_URL
-        fromService:
-          type: web
-          name: equishare-backend
-          property: host
