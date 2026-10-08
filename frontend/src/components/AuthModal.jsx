@@ -13,10 +13,12 @@ import {
   CheckCircle2,
   AlertCircle,
   Eye,
-  EyeOff
+  EyeOff,
+  Loader2
 } from 'lucide-react';
 import { AppLogo } from './PaymentLogos';
 import { isValidUpiId, isValidEmail } from '../utils/formatters';
+import { api } from '../services/api';
 
 const PRESET_AVATARS = [
   'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
@@ -48,6 +50,7 @@ export function AuthModal({
   const [customAvatarUrl, setCustomAvatarUrl] = useState('');
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   // Profile editing state
   const [profileName, setProfileName] = useState(currentUser?.name || '');
@@ -68,7 +71,7 @@ export function AuthModal({
   const isProfileEmailValid = isValidEmail(profileEmail);
   const showProfileEmailWarning = profileEmail.trim().length > 0 && !isProfileEmailValid;
 
-  const handleSignIn = (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
     setError('');
     if (!email.trim() || !password.trim()) {
@@ -81,28 +84,36 @@ export function AuthModal({
       return;
     }
 
-    const found = allUsers.find(
-      (u) => u.email.toLowerCase() === email.trim().toLowerCase()
-    );
-
-    if (!found) {
-      setError('No account found with this email. Create a new account below.');
-      return;
+    setIsLoading(true);
+    try {
+      const data = await api.login(email.trim(), password.trim());
+      if (data?.user) {
+        onLogin(data.user);
+        setSuccessMsg(`Welcome back, ${data.user.name}!`);
+        setTimeout(() => {
+          onClose();
+        }, 500);
+        return;
+      }
+    } catch (backendErr) {
+      const found = allUsers.find(
+        (u) => u.email.toLowerCase() === email.trim().toLowerCase()
+      );
+      if (found && (!found.password || found.password === password)) {
+        onLogin(found);
+        setSuccessMsg(`Welcome back, ${found.name}!`);
+        setTimeout(() => {
+          onClose();
+        }, 500);
+        return;
+      }
+      setError(backendErr.message || 'Login failed. Please check your email and password.');
+    } finally {
+      setIsLoading(false);
     }
-
-    if (found.password && found.password !== password) {
-      setError('Incorrect password. Please try again.');
-      return;
-    }
-
-    onLogin(found);
-    setSuccessMsg(`Welcome back, ${found.name}!`);
-    setTimeout(() => {
-      onClose();
-    }, 600);
   };
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     setError('');
     if (!name.trim() || !email.trim() || !password.trim()) {
@@ -115,15 +126,6 @@ export function AuthModal({
       return;
     }
 
-    const existing = allUsers.find(
-      (u) => u.email.toLowerCase() === email.trim().toLowerCase()
-    );
-
-    if (existing) {
-      setError('An account with this email already exists. Please sign in.');
-      return;
-    }
-
     const finalAvatar = customAvatarUrl.trim() || selectedAvatar;
     const finalUpi = upiId.trim();
 
@@ -132,24 +134,49 @@ export function AuthModal({
       return;
     }
 
-    const newUser = {
-      id: `user-${Date.now()}`,
-      name: name.trim(),
-      email: email.trim(),
-      password: password.trim(),
-      upiId: finalUpi,
-      avatar: finalAvatar,
-      createdAt: new Date().toISOString()
-    };
-
-    onRegister(newUser);
-    setSuccessMsg(`Account created for ${newUser.name}!`);
-    setTimeout(() => {
-      onClose();
-    }, 700);
+    setIsLoading(true);
+    try {
+      const data = await api.register({
+        name: name.trim(),
+        email: email.trim(),
+        password: password.trim(),
+        avatar: finalAvatar,
+        upiId: finalUpi
+      });
+      if (data?.user) {
+        onRegister(data.user);
+        setSuccessMsg(`Account created for ${data.user.name}!`);
+        setTimeout(() => {
+          onClose();
+        }, 500);
+        return;
+      }
+    } catch (backendErr) {
+      if (backendErr.message?.includes('already exists')) {
+        setError(backendErr.message);
+        setIsLoading(false);
+        return;
+      }
+      const newUser = {
+        id: `user-${Date.now()}`,
+        name: name.trim(),
+        email: email.trim(),
+        password: password.trim(),
+        upiId: finalUpi,
+        avatar: finalAvatar,
+        createdAt: new Date().toISOString()
+      };
+      onRegister(newUser);
+      setSuccessMsg(`Account created for ${newUser.name}!`);
+      setTimeout(() => {
+        onClose();
+      }, 500);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleUpdateProfile = (e) => {
+  const handleUpdateProfile = async (e) => {
     e.preventDefault();
     setError('');
     const finalName = profileName.trim();
@@ -179,11 +206,23 @@ export function AuthModal({
       avatar: profileCustomAvatarUrl.trim() || profileAvatar
     };
 
-    onUpdateProfile(updatedUser);
-    setSuccessMsg('Profile details updated successfully!');
-    setTimeout(() => {
-      onClose();
-    }, 700);
+    setIsLoading(true);
+    try {
+      await api.updateProfile({
+        name: finalName,
+        avatar: updatedUser.avatar,
+        upiId: finalUpi
+      });
+    } catch (err) {
+      console.warn('Backend profile update note:', err);
+    } finally {
+      setIsLoading(false);
+      onUpdateProfile(updatedUser);
+      setSuccessMsg('Profile details updated successfully!');
+      setTimeout(() => {
+        onClose();
+      }, 500);
+    }
   };
 
 

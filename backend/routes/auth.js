@@ -126,4 +126,41 @@ router.get('/me', authenticateToken, (req, res) => {
   res.json({ user: safeUser });
 });
 
+// PUT /api/auth/profile
+router.put('/profile', authenticateToken, async (req, res) => {
+  try {
+    const { name, avatar, upiId, phone } = req.body;
+    const db = readDB();
+    const userIndex = db.users.findIndex((u) => u.id === req.user.id);
+    if (userIndex === -1) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+
+    if (name) db.users[userIndex].name = name.trim();
+    if (avatar) db.users[userIndex].avatar = avatar;
+    if (upiId !== undefined) db.users[userIndex].upiId = upiId.trim();
+    if (phone !== undefined) db.users[userIndex].phone = phone.trim();
+
+    // Also update this user's profile inside any group member lists
+    db.groups.forEach((g) => {
+      if (g.members) {
+        g.members.forEach((m) => {
+          if (m.id === req.user.id) {
+            if (name) m.name = name.trim();
+            if (avatar) m.avatar = avatar;
+            if (upiId !== undefined) m.upiId = upiId.trim();
+          }
+        });
+      }
+    });
+
+    writeDB(db);
+    const { passwordHash: _, ...safeUser } = db.users[userIndex];
+    res.json({ message: 'Profile updated successfully', user: safeUser });
+  } catch (err) {
+    console.error('Update profile error:', err);
+    res.status(500).json({ error: 'Failed to update profile.' });
+  }
+});
+
 export default router;

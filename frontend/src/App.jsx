@@ -279,13 +279,47 @@ export default function App() {
     return balances[activeMember?.id]?.net || 0;
   }, [activeGroup.members, balances]);
 
+  // Revalidate session with backend on mount and synchronize groups
+  useEffect(() => {
+    async function syncBackendSession() {
+      const token = localStorage.getItem('equishare_auth_token');
+      if (!token) return;
+
+      try {
+        const meRes = await api.getMe();
+        if (meRes?.user) {
+          setUsers((prev) => {
+            const exists = prev.some((u) => u.id === meRes.user.id);
+            return exists ? prev.map((u) => (u.id === meRes.user.id ? { ...u, ...meRes.user } : u)) : [meRes.user, ...prev];
+          });
+          setCurrentUserId(meRes.user.id);
+
+          const groupsRes = await api.getGroups();
+          if (groupsRes?.groups && groupsRes.groups.length > 0) {
+            setGroups((prev) => {
+              const remoteGroupIds = new Set(groupsRes.groups.map((g) => g.id));
+              const nonOverlapping = prev.filter((g) => !remoteGroupIds.has(g.id));
+              return [...groupsRes.groups, ...nonOverlapping];
+            });
+            if (!activeGroupId || !groupsRes.groups.some((g) => g.id === activeGroupId)) {
+              setActiveGroupId(groupsRes.groups[0].id);
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('Backend sync note:', err);
+      }
+    }
+    syncBackendSession();
+  }, []);
+
   // Handlers
   const handleAddExpense = (newExpense) => {
+    const isEdit = (activeGroup.expenses || []).some((e) => e.id === newExpense.id);
     setGroups((prev) =>
       prev.map((g) => {
         if (g.id === activeGroupId) {
-          // If editing an existing expense
-          const existingIndex = g.expenses.findIndex((e) => e.id === newExpense.id);
+          const existingIndex = (g.expenses || []).findIndex((e) => e.id === newExpense.id);
           if (existingIndex >= 0) {
             const updated = [...g.expenses];
             updated[existingIndex] = newExpense;
@@ -293,12 +327,25 @@ export default function App() {
           }
           return {
             ...g,
-            expenses: [newExpense, ...g.expenses]
+            expenses: [newExpense, ...(g.expenses || [])]
           };
         }
         return g;
       })
     );
+
+    // Persist to backend API if logged in
+    if (isLoggedIn && activeGroupId) {
+      if (isEdit) {
+        api.updateExpense(newExpense.id, { ...newExpense, groupId: activeGroupId }).catch((err) => {
+          console.warn('Backend updateExpense note:', err);
+        });
+      } else {
+        api.addExpense({ ...newExpense, groupId: activeGroupId }).catch((err) => {
+          console.warn('Backend addExpense note:', err);
+        });
+      }
+    }
   };
 
   const handleEditExpense = (expense) => {
@@ -312,12 +359,18 @@ export default function App() {
         if (g.id === activeGroupId) {
           return {
             ...g,
-            expenses: g.expenses.filter((e) => e.id !== expenseId)
+            expenses: (g.expenses || []).filter((e) => e.id !== expenseId)
           };
         }
         return g;
       })
     );
+
+    if (isLoggedIn && activeGroupId) {
+      api.deleteExpense(expenseId, activeGroupId).catch((err) => {
+        console.warn('Backend deleteExpense note:', err);
+      });
+    }
   };
 
   const handleAddSupply = (newSupply) => {
@@ -332,6 +385,12 @@ export default function App() {
         return g;
       })
     );
+
+    if (isLoggedIn && activeGroupId) {
+      api.addSupply({ ...newSupply, groupId: activeGroupId }).catch((err) => {
+        console.warn('Backend addSupply note:', err);
+      });
+    }
   };
 
   const handleUpdateSupplyStatus = (supplyId, status) => {
@@ -342,7 +401,6 @@ export default function App() {
           const expenseId = `exp-supply-${supplyId}`;
 
           if (status === 'needed') {
-            // Undo/uncheck tick mark: remove any restocked expense linked to this supply item
             return {
               ...g,
               supplies: (g.supplies || []).map((s) =>
@@ -353,7 +411,6 @@ export default function App() {
               )
             };
           } else {
-            // Marking as purchased: create/link restocked expense if amount > 0
             const activeMember = g.members?.find((m) => m.isCurrentUser) || g.members?.[0];
             const amount = Number(supplyItem?.estimatedPrice) || 0;
             let updatedExpenses = g.expenses || [];
@@ -408,6 +465,12 @@ export default function App() {
         return g;
       })
     );
+
+    if (isLoggedIn && activeGroupId) {
+      api.updateSupplyStatus(supplyId, activeGroupId, status).catch((err) => {
+        console.warn('Backend updateSupplyStatus note:', err);
+      });
+    }
   };
 
   const handleDeleteSupply = (supplyId) => {
@@ -427,6 +490,12 @@ export default function App() {
         return g;
       })
     );
+
+    if (isLoggedIn && activeGroupId) {
+      api.deleteSupply(supplyId, activeGroupId).catch((err) => {
+        console.warn('Backend deleteSupply note:', err);
+      });
+    }
   };
 
   const handleConvertSupplyToExpense = (supply) => {
@@ -481,8 +550,13 @@ export default function App() {
         return g;
       })
     );
-  };
 
+    if (isLoggedIn && activeGroupId) {
+      api.addExpense({ ...newExpense, groupId: activeGroupId }).catch((err) => {
+        console.warn('Backend addExpense note:', err);
+      });
+    }
+  };
 
   const handleConfirmSettlement = (settlement) => {
     const newSettlement = {
@@ -506,6 +580,12 @@ export default function App() {
         return g;
       })
     );
+
+    if (isLoggedIn && activeGroupId) {
+      api.addSettlement({ ...newSettlement, groupId: activeGroupId }).catch((err) => {
+        console.warn('Backend addSettlement note:', err);
+      });
+    }
   };
 
   const handleDeleteSettlement = (settlementId) => {
@@ -520,16 +600,34 @@ export default function App() {
         return g;
       })
     );
+
+    if (isLoggedIn && activeGroupId) {
+      api.deleteSettlement(settlementId, activeGroupId).catch((err) => {
+        console.warn('Backend deleteSettlement note:', err);
+      });
+    }
   };
 
   const handleCreateGroup = (newGroup) => {
     setGroups((prev) => [newGroup, ...prev]);
     setActiveGroupId(newGroup.id);
     setActivePage('dashboard');
+
+    if (isLoggedIn) {
+      api.createGroup(newGroup).catch((err) => {
+        console.warn('Backend createGroup note:', err);
+      });
+    }
   };
 
   const handleUpdateGroup = (updatedGroup) => {
     setGroups((prev) => prev.map((g) => (g.id === updatedGroup.id ? updatedGroup : g)));
+
+    if (isLoggedIn && updatedGroup?.id) {
+      api.updateGroup(updatedGroup.id, updatedGroup).catch((err) => {
+        console.warn('Backend updateGroup note:', err);
+      });
+    }
   };
 
   const handleDeleteGroup = (groupId) => {
@@ -537,6 +635,12 @@ export default function App() {
     setGroups(remaining);
     if (activeGroupId === groupId) {
       setActiveGroupId(remaining.length > 0 ? remaining[0].id : null);
+    }
+
+    if (isLoggedIn && groupId) {
+      api.deleteGroup(groupId).catch((err) => {
+        console.warn('Backend deleteGroup note:', err);
+      });
     }
   };
 
@@ -573,10 +677,15 @@ export default function App() {
         return g;
       })
     );
+
+    if (isLoggedIn && activeGroup?.id) {
+      api.addMember(activeGroup.id, newMember).catch((err) => {
+        console.warn('Backend addMember note:', err);
+      });
+    }
   };
 
   const handleRemoveMemberFromGroup = (memberId) => {
-    // Check if member has existing expenses or debts to protect ledger
     const hasExpenses = (activeGroup.expenses || []).some(
       (e) => e.paidBy === memberId || (e.participants && e.participants.includes(memberId))
     );
@@ -596,6 +705,12 @@ export default function App() {
         return g;
       })
     );
+
+    if (isLoggedIn && activeGroup?.id) {
+      api.removeMember(activeGroup.id, memberId).catch((err) => {
+        console.warn('Backend removeMember note:', err);
+      });
+    }
   };
 
   const handleOpenAuth = (mode = 'signin') => {
@@ -612,7 +727,7 @@ export default function App() {
     return null;
   };
 
-  const handleLogin = (user) => {
+  const handleLogin = async (user) => {
     setCurrentUserId(user.id);
     const inviteGroupId = getInviteGroupId();
 
@@ -637,10 +752,24 @@ export default function App() {
           );
         }
         setActiveGroupId(targetInviteGroup.id);
-        // Clear join param from URL
         window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
         return;
       }
+    }
+
+    try {
+      const groupsRes = await api.getGroups();
+      if (groupsRes?.groups && groupsRes.groups.length > 0) {
+        setGroups((prev) => {
+          const remoteGroupIds = new Set(groupsRes.groups.map((g) => g.id));
+          const nonOverlapping = prev.filter((g) => !remoteGroupIds.has(g.id));
+          return [...groupsRes.groups, ...nonOverlapping];
+        });
+        setActiveGroupId(groupsRes.groups[0].id);
+        return;
+      }
+    } catch (err) {
+      console.warn('Backend getGroups note:', err);
     }
 
     const userMatchedGroups = groups.filter((g) =>
@@ -676,7 +805,7 @@ export default function App() {
     }
   };
 
-  const handleRegister = (newUser) => {
+  const handleRegister = async (newUser) => {
     const updatedUsers = [newUser, ...users];
     setUsers(updatedUsers);
     setCurrentUserId(newUser.id);
@@ -710,6 +839,22 @@ export default function App() {
         setActivePage('dashboard');
         return;
       }
+    }
+
+    try {
+      const groupsRes = await api.getGroups();
+      if (groupsRes?.groups && groupsRes.groups.length > 0) {
+        setGroups((prev) => {
+          const remoteGroupIds = new Set(groupsRes.groups.map((g) => g.id));
+          const nonOverlapping = prev.filter((g) => !remoteGroupIds.has(g.id));
+          return [...groupsRes.groups, ...nonOverlapping];
+        });
+        setActiveGroupId(groupsRes.groups[0].id);
+        setActivePage('dashboard');
+        return;
+      }
+    } catch (err) {
+      console.warn('Backend getGroups on register note:', err);
     }
 
     // Create a clean personal group for the new user
@@ -751,6 +896,7 @@ export default function App() {
     setIsLogoutModalOpen(false);
     setIsAuthModalOpen(false);
     setCurrentUserId(null);
+    localStorage.removeItem('equishare_auth_token');
     localStorage.removeItem('equishare_current_user_id');
     localStorage.removeItem('equishare_active_group_id');
     setActivePage('landing');
