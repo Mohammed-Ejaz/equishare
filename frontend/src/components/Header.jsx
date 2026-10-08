@@ -31,7 +31,10 @@ export function Header({
   };
 
   return (
-    <header className="sticky top-0 z-20 bg-[var(--bg-main,#090D16)]/90 backdrop-blur-xl border-b border-white/10 px-3 sm:px-5 lg:px-6 py-3 flex items-center justify-between gap-2 sm:gap-4 shrink-0">
+    <header 
+      style={{ paddingTop: 'max(0.75rem, env(safe-area-inset-top, 0.75rem))' }}
+      className="sticky top-0 z-20 bg-[var(--bg-main,#090D16)]/95 backdrop-blur-xl border-b border-white/10 px-3 sm:px-5 lg:px-6 pb-3 flex items-center justify-between gap-2 sm:gap-4 shrink-0 transition-all"
+    >
       {/* Left: Mobile Menu & Page Title */}
       <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
         {/* Mobile toggle */}

@@ -834,15 +834,15 @@ export default function App() {
   }
 
   return (
-    <div className="h-full h-[100dvh] bg-[var(--color-app-bg)] text-slate-100 flex relative overflow-hidden font-sans transition-colors duration-300" data-theme={theme}>
+    <div className="min-h-[100dvh] md:h-[100dvh] bg-[var(--color-app-bg)] text-slate-100 flex flex-col md:flex-row relative md:overflow-hidden font-sans transition-colors duration-300 w-full" data-theme={theme}>
       {/* Interactive Magnetic Cursor Follower */}
       <InteractiveCursor />
 
       {/* Dynamic Animated Theme-Aware Background Graphics */}
       <AnimatedBackground theme={theme} />
 
-      {/* 1. Desktop & Mobile Sidebar (Fixed Height) */}
-      <div className={`fixed inset-y-0 left-0 z-40 md:static h-full h-[100dvh] shrink-0 transition-transform duration-300 ${
+      {/* 1. Desktop & Mobile Sidebar */}
+      <div className={`fixed inset-y-0 left-0 z-40 md:static md:h-[100dvh] shrink-0 transition-transform duration-300 ${
         isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
       }`}>
         <Sidebar
@@ -888,8 +888,8 @@ export default function App() {
         />
       )}
 
-      {/* 2. Main Content Area (Dynamic Height with Independent Scrollable Main) */}
-      <div className="flex-1 flex flex-col min-w-0 min-h-0 h-full overflow-hidden z-10">
+      {/* 2. Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0 md:min-h-0 md:h-full md:overflow-hidden z-10 w-full">
         {/* Top Header - Always Fixed at Top */}
         <Header
           activePage={activePage}
@@ -904,8 +904,11 @@ export default function App() {
           onOpenAuth={handleOpenAuth}
         />
 
-        {/* Page Content Viewport - Only this scrolls */}
-        <main className="flex-1 overflow-y-auto min-h-0 p-4 pb-28 md:p-6 md:pb-12 lg:p-8 max-w-7xl w-full mx-auto custom-scrollbar overscroll-contain">
+        {/* Page Content Viewport - Seamless native document scroll on mobile, contained viewport on desktop */}
+        <main 
+          style={{ paddingBottom: 'max(7rem, calc(5rem + env(safe-area-inset-bottom, 0px)))' }}
+          className="flex-1 w-full p-4 md:p-6 md:pb-12 lg:p-8 max-w-7xl mx-auto md:overflow-y-auto md:min-h-0 custom-scrollbar"
+        >
           {activePage === 'dashboard' && (
             <DashboardPage
               group={activeGroup}
