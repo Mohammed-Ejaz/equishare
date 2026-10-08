@@ -25,6 +25,15 @@ export function getLocalDateString(d = new Date()) {
 }
 
 /**
+ * Validates authentic email format (e.g. user@domain.com, rahul.sharma@corp.co.in)
+ */
+export function isValidEmail(email) {
+  if (!email || typeof email !== 'string') return false;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailRegex.test(email.trim());
+}
+
+/**
  * Validates authentic UPI ID format (e.g. rahul@okaxis, sneha@hdfcbank)
  */
 export function isValidUpiId(upi) {

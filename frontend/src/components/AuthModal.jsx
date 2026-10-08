@@ -11,11 +11,12 @@ import {
   UserPlus, 
   LogIn, 
   CheckCircle2,
+  AlertCircle,
   Eye,
   EyeOff
 } from 'lucide-react';
 import { AppLogo } from './PaymentLogos';
-import { isValidUpiId } from '../utils/formatters';
+import { isValidUpiId, isValidEmail } from '../utils/formatters';
 
 const PRESET_AVATARS = [
   'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
@@ -57,11 +58,26 @@ export function AuthModal({
 
   if (!isOpen) return null;
 
+  // Real-time email validation states
+  const isSignInEmailValid = isValidEmail(email);
+  const showSignInEmailWarning = email.trim().length > 0 && !isSignInEmailValid;
+
+  const isSignUpEmailValid = isValidEmail(email);
+  const showSignUpEmailWarning = email.trim().length > 0 && !isSignUpEmailValid;
+
+  const isProfileEmailValid = isValidEmail(profileEmail);
+  const showProfileEmailWarning = profileEmail.trim().length > 0 && !isProfileEmailValid;
+
   const handleSignIn = (e) => {
     e.preventDefault();
     setError('');
     if (!email.trim() || !password.trim()) {
       setError('Please provide email and password.');
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      setError('Please enter a valid email address (e.g. name@example.com).');
       return;
     }
 
@@ -91,6 +107,11 @@ export function AuthModal({
     setError('');
     if (!name.trim() || !email.trim() || !password.trim()) {
       setError('Please fill in all required fields (Name, Email, Password).');
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      setError('Please enter a valid email address (e.g. name@example.com).');
       return;
     }
 
@@ -137,6 +158,11 @@ export function AuthModal({
 
     if (!finalName || !finalEmail) {
       setError('Name and Email cannot be empty.');
+      return;
+    }
+
+    if (!isValidEmail(finalEmail)) {
+      setError('Please enter a valid email address (e.g. name@example.com).');
       return;
     }
 
@@ -245,18 +271,38 @@ export function AuthModal({
             <div>
               <label className="block text-slate-300 font-semibold mb-1">Email Address</label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Mail className={`w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 transition-colors ${
+                  showSignInEmailWarning ? 'text-rose-400' : isSignInEmailValid ? 'text-emerald-400' : 'text-slate-400'
+                }`} />
                 <input
                   type="email"
                   name="user_email_signin"
                   autoComplete="off"
                   placeholder="your.email@example.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (error) setError('');
+                  }}
                   required
-                  className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-emerald-500 focus:outline-none text-white placeholder-slate-500 font-sans"
+                  className={`w-full pl-9 pr-9 py-2.5 rounded-xl border transition-all text-white placeholder-slate-500 font-sans focus:outline-none ${
+                    showSignInEmailWarning
+                      ? 'bg-rose-500/10 border-rose-500/80 focus:border-rose-500 focus:ring-1 focus:ring-rose-500/40 text-rose-100'
+                      : isSignInEmailValid
+                      ? 'bg-white/5 border-emerald-500/50 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30'
+                      : 'bg-white/5 border-white/10 focus:border-emerald-500'
+                  }`}
                 />
+                {isSignInEmailValid && (
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 absolute right-3 top-1/2 -translate-y-1/2 animate-fadeIn" />
+                )}
               </div>
+              {showSignInEmailWarning && (
+                <p className="mt-1.5 text-[11px] text-rose-400 font-medium flex items-center gap-1.5 animate-fadeIn">
+                  <AlertCircle className="w-3.5 h-3.5 shrink-0 text-rose-400" />
+                  <span>Please enter a valid email address (e.g. name@example.com)</span>
+                </p>
+              )}
             </div>
 
             <div>
@@ -340,18 +386,38 @@ export function AuthModal({
             <div>
               <label className="block text-slate-300 font-semibold mb-1">Email Address</label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Mail className={`w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 transition-colors ${
+                  showSignUpEmailWarning ? 'text-rose-400' : isSignUpEmailValid ? 'text-emerald-400' : 'text-slate-400'
+                }`} />
                 <input
                   type="email"
                   name="user_email_signup"
                   autoComplete="off"
                   placeholder="priya@example.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (error) setError('');
+                  }}
                   required
-                  className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-emerald-500 focus:outline-none text-white placeholder-slate-500"
+                  className={`w-full pl-9 pr-9 py-2.5 rounded-xl border transition-all text-white placeholder-slate-500 font-sans focus:outline-none ${
+                    showSignUpEmailWarning
+                      ? 'bg-rose-500/10 border-rose-500/80 focus:border-rose-500 focus:ring-1 focus:ring-rose-500/40 text-rose-100'
+                      : isSignUpEmailValid
+                      ? 'bg-white/5 border-emerald-500/50 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30'
+                      : 'bg-white/5 border-white/10 focus:border-emerald-500'
+                  }`}
                 />
+                {isSignUpEmailValid && (
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 absolute right-3 top-1/2 -translate-y-1/2 animate-fadeIn" />
+                )}
               </div>
+              {showSignUpEmailWarning && (
+                <p className="mt-1.5 text-[11px] text-rose-400 font-medium flex items-center gap-1.5 animate-fadeIn">
+                  <AlertCircle className="w-3.5 h-3.5 shrink-0 text-rose-400" />
+                  <span>Please enter a valid email address (e.g. name@example.com)</span>
+                </p>
+              )}
             </div>
 
             <div>
@@ -549,13 +615,36 @@ export function AuthModal({
 
             <div>
               <label className="block text-slate-300 font-semibold mb-1">Email Address</label>
-              <input
-                type="email"
-                value={profileEmail}
-                onChange={(e) => setProfileEmail(e.target.value)}
-                required
-                className="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white font-semibold focus:border-emerald-500 focus:outline-none"
-              />
+              <div className="relative">
+                <Mail className={`w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 transition-colors ${
+                  showProfileEmailWarning ? 'text-rose-400' : isProfileEmailValid ? 'text-emerald-400' : 'text-slate-400'
+                }`} />
+                <input
+                  type="email"
+                  value={profileEmail}
+                  onChange={(e) => {
+                    setProfileEmail(e.target.value);
+                    if (error) setError('');
+                  }}
+                  required
+                  className={`w-full pl-9 pr-9 py-2.5 rounded-xl border transition-all text-white font-semibold focus:outline-none ${
+                    showProfileEmailWarning
+                      ? 'bg-rose-500/10 border-rose-500/80 focus:border-rose-500 focus:ring-1 focus:ring-rose-500/40 text-rose-100'
+                      : isProfileEmailValid
+                      ? 'bg-white/5 border-emerald-500/50 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30'
+                      : 'bg-white/5 border-white/10 focus:border-emerald-500'
+                  }`}
+                />
+                {isProfileEmailValid && (
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 absolute right-3 top-1/2 -translate-y-1/2 animate-fadeIn" />
+                )}
+              </div>
+              {showProfileEmailWarning && (
+                <p className="mt-1.5 text-[11px] text-rose-400 font-medium flex items-center gap-1.5 animate-fadeIn">
+                  <AlertCircle className="w-3.5 h-3.5 shrink-0 text-rose-400" />
+                  <span>Please enter a valid email address (e.g. name@example.com)</span>
+                </p>
+              )}
             </div>
 
             <div>
