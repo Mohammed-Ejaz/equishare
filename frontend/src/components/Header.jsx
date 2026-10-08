@@ -35,15 +35,18 @@ export function Header({
       style={{ 
         paddingTop: 'max(0.75rem, env(safe-area-inset-top, 0.75rem))' 
       }}
-      className="app-fixed-header bg-[var(--bg-header)] backdrop-blur-2xl backdrop-saturate-150 border-b border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.18)] px-3 sm:px-5 lg:px-6 pb-3 flex items-center justify-between gap-2 sm:gap-4 shrink-0 transition-all relative select-none"
+      className="app-fixed-header bg-gradient-to-t from-[var(--bg-main,#070A12)]/95 via-[var(--bg-header)]/80 to-[var(--bg-main,#070A12)]/40 backdrop-blur-2xl backdrop-saturate-150 border-b border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.18)] px-3 sm:px-5 lg:px-6 pb-3 flex items-center justify-between gap-2 sm:gap-4 shrink-0 transition-all relative select-none"
     >
-      {/* 1. Top Specular Glass Reflection Sheen */}
+      {/* 1. Bottom-to-Top Ambient Glass Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/[0.08] via-transparent to-white/[0.03] pointer-events-none" />
+
+      {/* 2. Top Specular Glass Reflection Sheen */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
 
-      {/* 2. Full-Width Frosted Glass Glowing Bottom Edge Line */}
+      {/* 3. Full-Width Frosted Glass Glowing Bottom Edge Line */}
       <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-emerald-400/40 via-teal-300/70 via-emerald-400/60 to-cyan-400/40 shadow-[0_1px_12px_rgba(52,211,153,0.45)] pointer-events-none" />
       
-      {/* 3. Full-Width Soft Downward Glass-Fade Gradient Apron */}
+      {/* 4. Full-Width Soft Downward Glass-Fade Gradient Apron */}
       <div className="absolute -bottom-4 left-0 right-0 h-4 bg-gradient-to-b from-[var(--bg-header)]/70 via-[var(--bg-main,#090D16)]/30 to-transparent pointer-events-none" />
 
       {/* Left: Mobile Menu & Page Title */}
