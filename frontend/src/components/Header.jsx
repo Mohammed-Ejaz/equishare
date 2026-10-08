@@ -33,15 +33,9 @@ export function Header({
   return (
     <header 
       style={{ 
-        position: 'fixed', 
-        top: 0, 
-        left: 0, 
-        width: '100%',
         paddingTop: 'max(0.75rem, env(safe-area-inset-top, 0.75rem))' 
       }}
-      className={`app-fixed-header z-30 bg-[var(--bg-main,#090D16)]/95 backdrop-blur-xl border-b border-white/10 px-3 sm:px-5 lg:px-6 pb-3 flex items-center justify-between gap-2 sm:gap-4 shrink-0 transition-all ${
-        isSidebarCollapsed ? 'md:pl-24' : 'md:pl-68'
-      }`}
+      className="app-fixed-header bg-[var(--bg-main,#090D16)]/95 backdrop-blur-xl border-b border-white/10 px-3 sm:px-5 lg:px-6 pb-3 flex items-center justify-between gap-2 sm:gap-4 shrink-0 transition-all"
     >
       {/* Left: Mobile Menu & Page Title */}
       <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
